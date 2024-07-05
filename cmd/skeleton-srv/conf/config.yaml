@@ -1,0 +1,17 @@
+rest:
+  http_listen_addr: 0.0.0.0:11080 # HTTP_LISTEN_ADDR_PORT
+system:
+  gomaxprocs: 0                   # GOMAXPROCS
+log:
+  level: info                     # LOG_LEVEL
+  format: json                    # LOG_FORMAT
+db:
+  host: localhost                 # DB_HOST
+  port: 5432                      # DB_PORT
+  driver: postgres                # DB_DRIVER
+  name: skeleton_db               # DB_NAME
+  user: skeleton_user             # DB_USER
+  password: skeleton_password     # DB_PASSWORD
+  sslmode: disable                # DB_SSL
+  max_conns: 100                  # DB_MAX_CONN
+  max_idle_conns: 10              # DB_IDLE_CONN

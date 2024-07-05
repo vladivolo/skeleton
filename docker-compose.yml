@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:14.2
+    container_name: postgresql
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    env_file:
+      .env
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+      - ./data/postgres:/var/lib/postgresql:rw
+      
+  skeleton:
+    image: skeleton-srv:latest-lilo
+    container_name: skeleton-srv
+    environment:
+      - GOMAXPROCS=5
+      - LOG_LEVEL=info
+    env_file:
+      - .env
+    entrypoint:
+      /app/skeleton-srv -config=config.yaml
+    ports:
+      - "11080:${HTTP_LISTEN_PORT}"
+    depends_on:
+      - db
+
+  migrations:
+    image: migrations:latest-lilo
+    container_name: migrations
+    env_file:
+      - .env
+    depends_on:
+      - db
+    entrypoint:
+      /migrations/entrypoint.sh
+      
